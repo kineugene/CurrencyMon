@@ -2,9 +2,9 @@ import asyncio
 import concurrent
 import logging
 
-import config
-from RateFetcher import RateFetcher, Currency
-from ThresholdAlert import ThresholdAlert, AlertCondition
+from currency_mon import config
+from currency_mon.RateFetcher import RateFetcher, Currency
+from currency_mon.ThresholdAlert import ThresholdAlert, AlertCondition
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(levelname)s] %(message)s')

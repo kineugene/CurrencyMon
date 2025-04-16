@@ -2,7 +2,7 @@ import asyncio
 import logging
 from enum import Enum
 from pip._vendor import requests
-import config
+from currency_mon import config
 
 
 class Currency(Enum):

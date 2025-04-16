@@ -1,8 +1,8 @@
 import asyncio
 from enum import Enum
-import config
+from currency_mon import config
 
-from RateFetcher import Currency
+from currency_mon.RateFetcher import Currency
 
 
 class AlertCondition(Enum):
