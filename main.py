@@ -1,26 +1,25 @@
 import asyncio
 import concurrent
+import logging
 
 import config
 from RateFetcher import RateFetcher, Currency
 from ThresholdAlert import ThresholdAlert, AlertCondition
 
 if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO, format='[%(asctime)s] [%(levelname)s] %(message)s')
+
     currencies = ["USD", "EUR", "GBP", "CNY"]
 
-    choose_currency_message = f"""
-Выберите валюты для наблюдения:
-"""
+    choose_currency_message = "Выберите валюты для наблюдения:\n"
     for i in range(len(currencies)):
         choose_currency_message += str(i + 1) + ". " + currencies[i] + "\n"
 
     chosen_currency: str
-
     all_rules_accepted = False
 
     while not all_rules_accepted:
         chosen_currency = input(choose_currency_message)
-
         if not chosen_currency.isdigit():
             print("Вы ввели нечисловое значение. Выберите числовое значение из списка./n")
         elif not (0 < int(chosen_currency) <= len(currencies)):
@@ -39,8 +38,7 @@ if __name__ == '__main__':
 Выберите условие при котором будет приходить уведомление:
 1. Курс превысил значение
 2. Курс упал ниже значения
-3. Курс изменился
-        """
+3. Курс изменился\n"""
         alert_condition = input(currencies_clause_message)
         if not alert_condition.isdigit():
             print("Вы ввели нечисловое значение. Выберите числовое значение из списка./n")
@@ -72,6 +70,10 @@ if __name__ == '__main__':
                 config.keep_running = False
                 print("Stopping the process...")
 
+
+    logging.info(
+        "Собираем все задачи на параллельное исполнение: stop_running(), get_currency_course(), "
+        "check_rate_by_condition()")
     ioloop = asyncio.get_event_loop()
     tasks = [ioloop.create_task(stop_running(ioloop)),
              ioloop.create_task(rate_fetcher.get_currency_course()),

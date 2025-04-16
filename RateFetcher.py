@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from enum import Enum
 from pip._vendor import requests
 import config
@@ -22,7 +23,8 @@ class RateFetcher:
 
     async def get_currency_course(self):
         while config.keep_running:
+            logging.info("Запрашиваем данные с сервера.")
             response = requests.get(self.base_url + self.base_currency.name).json()
             config.rates[self.base_currency.name] = response['conversion_rates']
-
+            logging.info(f"Данные получены: {response}")
             await asyncio.sleep(10)
